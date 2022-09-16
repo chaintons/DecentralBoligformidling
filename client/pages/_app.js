@@ -5,7 +5,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <nav className="border-b p-6">
-        <p className="text-4xl font-bold">Bored Pet Marketplace</p>
+        <p className="text-4xl font-bold">Real estate Marketplace</p>
         <div className="flex mt-4">
           <Link href="/">
             <a className="mr-4 text-teal-400">
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
           </Link>
           <Link href="/my-listed-nfts">
             <a className="mr-6 text-teal-400">
-              My Listed NFTs
+              My NFTs for sale
             </a>
           </Link>
         </div>

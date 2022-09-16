@@ -46,7 +46,7 @@ export default function ResellNFT() {
     <div className="flex justify-center">
       <div className="w-1/2 flex flex-col pb-12">
         <input
-          placeholder="Asset Price in Eth"
+          placeholder="Asset Price in Ether"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
         />
@@ -56,7 +56,7 @@ export default function ResellNFT() {
           )
         }
         <button onClick={listNFTForSale} className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg">
-          List NFT
+          Sell NFT
         </button>
       </div>
     </div>
