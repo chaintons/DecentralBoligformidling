@@ -23,6 +23,7 @@ export default function Home() {
     // Iterate over the listed NFTs and retrieve their metadata
     const nfts = await Promise.all(listings.map(async (i) => {
       try {
+        console.log("TokenId:" + i.tokenId)
         const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, BoredPetsNFT.networks[networkId].address)
         const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call()
         const meta = await axios.get(tokenURI)
