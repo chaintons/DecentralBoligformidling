@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { getWeb3Async } from '../utils/web3utils'
-import { keccak256 } from 'web3-utils'
 
 export default function SelectProperty() {
     const [propertyOwner, setPropertyOwner] = useState('')
     const [certificateToSign, setCertificateToSign] = useState('')
+    const [walletSignature, setWalletSignature] = useState('')
     const [formInput, updateFormInput] = useState({ address: '' })
     const [myEthAccount, setMyEthAccount] = useState('')
     const [dataToSignHash, setDataToSignHash] = useState('')
@@ -38,7 +38,7 @@ export default function SelectProperty() {
             with my NemId and my ETH wallet address: ${myEthAccount}`)
 
             //console.log('certificateToSign ' + certificateToSign)
-            setDataToSignHash(await keccak256(certificateToSign))
+            setDataToSignHash(await web3.utils.keccak256(web3.utils.toHex(certificateToSign), {encoding:"hex"}));
             console.log('dataToSignHash ' + dataToSignHash)
         }
     }
@@ -48,6 +48,7 @@ export default function SelectProperty() {
             console.log('Error with signCertificateWithWallet ' + error)
             return
         }
+        setWalletSignature(walletSignature)
         console.log('walletSignature ' + walletSignature)
     }
 
@@ -57,7 +58,7 @@ export default function SelectProperty() {
         // Example of sign with ethers:
         // https://github.com/MetaMask/test-dapp/blob/main/src/index.js#L879
         // Which to choose? https://ethereum.stackexchange.com/a/25610
-        web3.eth.sign(dataToSignHash, myEthAccount , signCertificateWithWalletCb)
+        web3.eth.sign(dataToSignHash, myEthAccount, signCertificateWithWalletCb)
     }
 
     return (
@@ -102,7 +103,8 @@ export default function SelectProperty() {
                     </button>
                     <button 
                         // onClick={e => bbbb(propertyOwner)} 
-                        className="font-bold mt-4, ml-4 bg-teal-400 text-white rounded p-4 shadow-lg">
+                        className="font-bold mt-4, ml-4 bg-teal-400 text-white rounded p-4 shadow-lg"
+                        disabled>
                         Sign cetificate with MitId
                     </button>
                 </div>
