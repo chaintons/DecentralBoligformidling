@@ -57,10 +57,6 @@ export default function CreatorDashboard() {
                   <img src={nft.image} className="rounded" />
                   <div className="p-1 bg-black">
                     <p className="text-1xl font-bold text-white">Price - {Web3.utils.fromWei(nft.price, "ether")} Ether</p>
-                    <p className="text-1xl font-bold text-white">Owner - {nft.owner}</p>
-                    <p className="text-1xl font-bold text-white">Seller - {nft.seller}</p>
-                    <p className="text-1xl text-white">TokenId - {nft.tokenId}</p>
-                    <p className="text-1xl text-white">Name - {nft.tokenId}</p>
                   </div>
                 </div>
               ))
