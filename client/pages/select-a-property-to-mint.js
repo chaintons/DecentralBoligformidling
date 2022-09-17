@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import { getWeb3Async } from '../utils/web3utils'
 
-export default function SelectProperty() {
+export default function SelectProperty({ certificateToSign, setCertificateToSign, setWalletSignature }) {
     const [propertyOwner, setPropertyOwner] = useState('')
-    const [certificateToSign, setCertificateToSign] = useState('')
-    const [walletSignature, setWalletSignature] = useState('')
     const [formInput, updateFormInput] = useState({ address: '' })
     const [myEthAccount, setMyEthAccount] = useState('')
     const [dataToSignHash, setDataToSignHash] = useState('')
@@ -63,7 +61,7 @@ export default function SelectProperty() {
 
     return (
         <>
-            <div className="card p-4">
+            <div className="card">
                 <input 
                     placeholder="Address"
                     className="mt-8 border rounded p-4"
@@ -98,12 +96,12 @@ export default function SelectProperty() {
                     </div>
                     <button 
                         onClick={e => signCertificateWithWallet()} 
-                        className="font-bold mt-4, ml-4 bg-teal-400 text-white rounded p-4 shadow-lg">
+                        className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg">
                         Sign cetificate with you wallet
                     </button>
                     <button 
                         // onClick={e => bbbb(propertyOwner)} 
-                        className="font-bold mt-4, ml-4 bg-teal-400 text-white rounded p-4 shadow-lg"
+                        className="font-bold mt-4 ml-4 bg-teal-400 text-white rounded p-4 shadow-lg"
                         disabled>
                         Sign cetificate with MitId
                     </button>

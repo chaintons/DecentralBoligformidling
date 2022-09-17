@@ -4,6 +4,7 @@ import Web3Modal from 'web3modal'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import { Marketplace, BoredPetsNFT } from './contracts-import'
+import SelectProperty from './select-a-property-to-mint'
 
 const ipfsServer = 'http://127.0.0.1' // Brave or CLI
 // const ipfsServer = 'https://ipfs.infura.io'
@@ -18,6 +19,9 @@ export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
+
+  const [certificateToSign, setCertificateToSign] = useState('')
+  const [walletSignature, setWalletSignature] = useState('')
 
   async function onChange(e) {
     // upload image to IPFS
@@ -111,7 +115,14 @@ export default function CreateItem() {
             <img className="rounded mt-4" width="350" src={fileUrl} />
           )
         }
-        <button onClick={listNFTForSale} className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg">
+        <SelectProperty
+          certificateToSign={certificateToSign}
+          setCertificateToSign={setCertificateToSign} 
+          setWalletSignature={setWalletSignature}/>
+        <button 
+        onClick={listNFTForSale} 
+        className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg"
+        disabled={!walletSignature}>
           Mint and sell NFT
         </button>
       </div>
