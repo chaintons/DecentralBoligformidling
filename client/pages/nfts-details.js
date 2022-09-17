@@ -48,6 +48,16 @@ export default function NftDetails() {
     router.push(`/resell-nft?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
   }
 
+  async function buyNft(nft) {
+    const web3 = await getWeb3Async()
+    const networkId = await web3.eth.net.getId();
+    const marketPlaceContract = new web3.eth.Contract(Marketplace.abi, Marketplace.networks[networkId].address);
+    const accounts = await web3.eth.getAccounts();
+    await marketPlaceContract.methods.buyNft(BoredPetsNFT.networks[networkId].address, nft.tokenId).send({ from: accounts[0], value: nft.price });
+    //loadNFTs()
+    router.push('/')
+  }
+
   if (loadingState === 'loaded' && !nfts.length) {
     return (<h1 className="py-10 px-20 text-3xl">No NFTs owned</h1>);
   } else {
@@ -74,7 +84,7 @@ export default function NftDetails() {
                     <p className="text-1xl text-white">Description - {nft.description}</p>
                     <p className="text-1xl text-white">TokenURI - {nft.tokenURI}</p>
 
-                    <button className="mt-4 w-full bg-teal-400 text-white font-bold py-2 px-12 rounded" onClick={() => listNFT(nft)}>Sell</button>
+                    <button className="mt-4 w-full bg-teal-400 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
                   </div>
                 </div>
               ))
