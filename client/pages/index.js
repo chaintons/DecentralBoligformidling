@@ -3,11 +3,13 @@ import Web3Modal from 'web3modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Marketplace, BoredPetsNFT } from './contracts-import'
+import { useRouter } from 'next/router'
 
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  
+  const [tokenURI, setTokenURI] = useState('')
+  const router = useRouter()
   useEffect(() => { loadNFTs() }, [])
   
   async function loadNFTs() {
@@ -25,7 +27,7 @@ export default function Home() {
       try {
         console.log("TokenId:" + i.tokenId)
         const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, BoredPetsNFT.networks[networkId].address)
-        const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call()
+        setTokenURI(await boredPetsContract.methods.tokenURI(i.tokenId).call())
         const meta = await axios.get(tokenURI)
         const nft = {
           price: i.price,
@@ -57,6 +59,10 @@ export default function Home() {
     loadNFTs()
   }
 
+  function viewNft(nft) {
+    router.push(`/nfts-details?id=${nft.tokenId}&tokenURI=${tokenURI}`)
+  }
+  
   if (loadingState === 'loaded' && !nfts.length) {
     return (<h1 className="px-20 py-10 text-3xl">No pets available!</h1>)
   } else {
@@ -77,7 +83,8 @@ export default function Home() {
                   <div className="p-4 bg-black">
                     <p className="text-2xl font-bold text-white">{Web3.utils.fromWei(nft.price, "ether")} ETH</p>
                     <button className="mt-4 w-full bg-teal-400 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
-                  </div>
+                    <button className="mt-4 w-full bg-teal-400 text-white font-bold py-2 px-12 rounded" onClick={() => viewNft(nft)}>View</button>
+                 </div>
                 </div>
               ))
             }
