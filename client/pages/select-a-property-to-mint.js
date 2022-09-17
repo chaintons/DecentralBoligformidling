@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { getWeb3Async } from '../utils/web3utils'
 
-export default function SelectProperty({ certificateToSign, setCertificateToSign, setWalletSignature }) {
+export default function SelectProperty({ 
+    sellerCertificateToSign, setSellerCertificateToSign, 
+    setSellerWalletSignature }) {
+        
     const [propertyOwner, setPropertyOwner] = useState('')
     const [formInput, updateFormInput] = useState({ address: '' })
     const [myEthAccount, setMyEthAccount] = useState('')
@@ -32,11 +35,11 @@ export default function SelectProperty({ certificateToSign, setCertificateToSign
         if (myEthAccount.length === 42) {
             console.log('myEthAddr ' + myEthAccount)
 
-            setCertificateToSign(`I, ${propertyOwner}, have signed this certificate 
+            setSellerCertificateToSign(`I, ${propertyOwner}, have signed this certificate 
             with my NemId and my ETH wallet address: ${myEthAccount}`)
 
             //console.log('certificateToSign ' + certificateToSign)
-            setDataToSignHash(await web3.utils.keccak256(web3.utils.toHex(certificateToSign), {encoding:"hex"}));
+            setDataToSignHash(await web3.utils.keccak256(web3.utils.toHex(sellerCertificateToSign), {encoding:"hex"}));
             console.log('dataToSignHash ' + dataToSignHash)
         }
     }
@@ -46,7 +49,7 @@ export default function SelectProperty({ certificateToSign, setCertificateToSign
             console.log('Error with signCertificateWithWallet ' + error)
             return
         }
-        setWalletSignature(walletSignature)
+        setSellerWalletSignature(walletSignature)
         console.log('walletSignature ' + walletSignature)
     }
 
@@ -88,11 +91,11 @@ export default function SelectProperty({ certificateToSign, setCertificateToSign
                 </div>
                 <div 
                     className="pt-4"
-                    hidden={!propertyOwner||!certificateToSign||!isDataToSignHashValid()}>
+                    hidden={!propertyOwner||!sellerCertificateToSign||!isDataToSignHashValid()}>
                     <div>Proove that you own wallet address {myEthAccount} by singing following certificate:</div>
                     <br></br>
                     <div>
-                        <i>{certificateToSign}</i>
+                        <i>{sellerCertificateToSign}</i>
                     </div>
                     <button 
                         onClick={e => signCertificateWithWallet()} 

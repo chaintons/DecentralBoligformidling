@@ -20,8 +20,8 @@ export default function CreateItem() {
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
 
-  const [certificateToSign, setCertificateToSign] = useState('')
-  const [walletSignature, setWalletSignature] = useState('')
+  const [sellerCertificateToSign, setSellerCertificateToSign] = useState('')
+  const [sellerWalletSignature, setSellerWalletSignature] = useState('')
 
   async function onChange(e) {
     // upload image to IPFS
@@ -47,7 +47,8 @@ export default function CreateItem() {
     } else {
       // first, upload metadata to IPFS
       const data = JSON.stringify({
-        name, description, image: fileUrl
+        name, description, image: fileUrl, 
+        sellerCertificateToSign, sellerWalletSignature
       })
       try {
         const added = await client.add(data)
@@ -116,13 +117,13 @@ export default function CreateItem() {
           )
         }
         <SelectProperty
-          certificateToSign={certificateToSign}
-          setCertificateToSign={setCertificateToSign} 
-          setWalletSignature={setWalletSignature}/>
+          sellerCertificateToSign={sellerCertificateToSign}
+          setSellerCertificateToSign={setSellerCertificateToSign} 
+          setSellerWalletSignature={setSellerWalletSignature}/>
         <button 
         onClick={listNFTForSale} 
         className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg"
-        disabled={!walletSignature}>
+        disabled={!sellerWalletSignature}>
           Mint and sell NFT
         </button>
       </div>
