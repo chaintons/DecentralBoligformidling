@@ -4,6 +4,11 @@ export default function SelectProperty() {
     const [propertyOwner, setPropertyOwner] = useState('')
     const [formInput, updateFormInput] = useState({ address: '' })
 
+    function onChangeAddress(e) {
+        updateFormInput({ ...formInput, address: e.target.value })
+        setPropertyOwner('')
+    }
+
     async function selectPropertyOnWeb2() {
         const res = await fetch(`api/mocks/select-property/${formInput.address}`)
         const json = await res.json()
@@ -17,7 +22,7 @@ export default function SelectProperty() {
                 <input 
                     placeholder="Address"
                     className="mt-8 border rounded p-4"
-                    onChange={e => updateFormInput({ ...formInput, address: e.target.value })}
+                    onChange={e => onChangeAddress(e)}
                 />
                 <button 
                     onClick={selectPropertyOnWeb2} 
