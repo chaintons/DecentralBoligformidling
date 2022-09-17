@@ -23,7 +23,6 @@ export default function Home() {
     // Iterate over the listed NFTs and retrieve their metadata
     const nfts = await Promise.all(listings.map(async (i) => {
       try {
-        console.log("TokenId:" + i.tokenId)
         const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, BoredPetsNFT.networks[networkId].address)
         const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call()
         const meta = await axios.get(tokenURI)
@@ -34,8 +33,7 @@ export default function Home() {
           owner: i.buyer,
           image: meta.data.image,
           name: meta.data.name,
-          description: meta.data.description,
-          tokenURI: tokenURI
+          description: meta.data.description
         }
         return nft
       } catch(err) {
@@ -59,7 +57,7 @@ export default function Home() {
   }
 
   async function viewNft(nft) {
-    router.push(`/nfts-details?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
+    router.push(`/nfts-details?id=${nft.tokenId}`)
   }
   
   if (loadingState === 'loaded' && !nfts.length) {
