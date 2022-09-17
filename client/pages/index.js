@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  const [tokenURI, setTokenURI] = useState('')
   const router = useRouter()
   useEffect(() => { loadNFTs() }, [])
   
@@ -17,8 +16,7 @@ export default function Home() {
     const provider = await web3Modal.connect()
     const web3 = new Web3(provider)
     const networkId = await web3.eth.net.getId()
-    console.log('networkId: ' + networkId)
-
+    
     // Get all listed NFTs
     const marketPlaceContract = new web3.eth.Contract(Marketplace.abi, Marketplace.networks[networkId].address)
     const listings = await marketPlaceContract.methods.getListedNfts().call()
@@ -27,7 +25,7 @@ export default function Home() {
       try {
         console.log("TokenId:" + i.tokenId)
         const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, BoredPetsNFT.networks[networkId].address)
-        setTokenURI(await boredPetsContract.methods.tokenURI(i.tokenId).call())
+        const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call()
         const meta = await axios.get(tokenURI)
         const nft = {
           price: i.price,
@@ -37,6 +35,7 @@ export default function Home() {
           image: meta.data.image,
           name: meta.data.name,
           description: meta.data.description,
+          tokenURI: tokenURI
         }
         return nft
       } catch(err) {
@@ -59,8 +58,8 @@ export default function Home() {
     loadNFTs()
   }
 
-  function viewNft(nft) {
-    router.push(`/nfts-details?id=${nft.tokenId}&tokenURI=${tokenURI}`)
+  async function viewNft(nft) {
+    router.push(`/nfts-details?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
   }
   
   if (loadingState === 'loaded' && !nfts.length) {
@@ -71,7 +70,7 @@ export default function Home() {
         <div className="px-4" style={{ maxWidth: '1600px' }}>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
             {
-              nfts.map((nft, i) => (
+              nfts.map((nft, i) => (                
                 <div key={i} className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} />
                   <div className="p-4">
