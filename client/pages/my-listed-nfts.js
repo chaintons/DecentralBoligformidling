@@ -48,15 +48,19 @@ export default function CreatorDashboard() {
   } else {
     return (
       <div>
-        <div className="p-4">
+        <div className="p-2">
           <h2 className="text-2xl py-2">Items for sale</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
             {
               nfts.map((nft, i) => (
                 <div key={i} className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} className="rounded" />
-                  <div className="p-4 bg-black">
-                    <p className="text-2xl font-bold text-white">Price - {Web3.utils.fromWei(nft.price, "ether")} Ether</p>
+                  <div className="p-1 bg-black">
+                    <p className="text-1xl font-bold text-white">Price - {Web3.utils.fromWei(nft.price, "ether")} Ether</p>
+                    <p className="text-1xl font-bold text-white">Owner - {nft.owner}</p>
+                    <p className="text-1xl font-bold text-white">Seller - {nft.seller}</p>
+                    <p className="text-1xl text-white">TokenId - {nft.tokenId}</p>
+                    <p className="text-1xl text-white">Name - {nft.tokenId}</p>
                   </div>
                 </div>
               ))
