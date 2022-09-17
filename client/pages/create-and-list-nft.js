@@ -20,6 +20,7 @@ export default function CreateItem() {
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
 
+  const [sellerEthAccount, setSellerEthAccount] = useState('')
   const [sellerCertificateToSign, setSellerCertificateToSign] = useState('')
   const [sellerWalletSignature, setSellerWalletSignature] = useState('')
 
@@ -48,7 +49,7 @@ export default function CreateItem() {
       // first, upload metadata to IPFS
       const data = JSON.stringify({
         name, description, image: fileUrl, 
-        sellerCertificateToSign, sellerWalletSignature
+        sellerEthAccount, sellerCertificateToSign, sellerWalletSignature
       })
       try {
         const added = await client.add(data)
@@ -117,8 +118,8 @@ export default function CreateItem() {
           )
         }
         <SelectProperty
-          sellerCertificateToSign={sellerCertificateToSign}
-          setSellerCertificateToSign={setSellerCertificateToSign} 
+          sellerEthAccount={sellerEthAccount} setSellerEthAccount={setSellerEthAccount}
+          sellerCertificateToSign={sellerCertificateToSign} setSellerCertificateToSign={setSellerCertificateToSign} 
           setSellerWalletSignature={setSellerWalletSignature}/>
         <button 
         onClick={listNFTForSale} 

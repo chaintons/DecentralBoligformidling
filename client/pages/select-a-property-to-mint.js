@@ -2,12 +2,12 @@ import { useState } from 'react'
 import { getWeb3Async } from '../utils/web3utils'
 
 export default function SelectProperty({ 
+    sellerEthAccount, setSellerEthAccount,
     sellerCertificateToSign, setSellerCertificateToSign, 
     setSellerWalletSignature }) {
-        
+
     const [propertyOwner, setPropertyOwner] = useState('')
     const [formInput, updateFormInput] = useState({ address: '' })
-    const [myEthAccount, setMyEthAccount] = useState('')
     const [dataToSignHash, setDataToSignHash] = useState('')
 
     function isDataToSignHashValid() {
@@ -30,13 +30,13 @@ export default function SelectProperty({
     async function prepareCertificate(propertyOwner) {
         const web3 = await getWeb3Async()
         const accounts = await web3.eth.getAccounts()
-        setMyEthAccount(accounts[0])
+        setSellerEthAccount(accounts[0])
         
-        if (myEthAccount.length === 42) {
-            console.log('myEthAddr ' + myEthAccount)
+        if (sellerEthAccount.length === 42) {
+            console.log('myEthAddr ' + sellerEthAccount)
 
             setSellerCertificateToSign(`I, ${propertyOwner}, have signed this certificate 
-            with my NemId and my ETH wallet address: ${myEthAccount}`)
+            with my NemId and my ETH wallet address: ${sellerEthAccount}`)
 
             //console.log('certificateToSign ' + certificateToSign)
             setDataToSignHash(await web3.utils.keccak256(web3.utils.toHex(sellerCertificateToSign), {encoding:"hex"}));
@@ -59,7 +59,7 @@ export default function SelectProperty({
         // Example of sign with ethers:
         // https://github.com/MetaMask/test-dapp/blob/main/src/index.js#L879
         // Which to choose? https://ethereum.stackexchange.com/a/25610
-        web3.eth.sign(dataToSignHash, myEthAccount, signCertificateWithWalletCb)
+        web3.eth.sign(dataToSignHash, sellerEthAccount, signCertificateWithWalletCb)
     }
 
     return (
@@ -92,7 +92,7 @@ export default function SelectProperty({
                 <div 
                     className="pt-4"
                     hidden={!propertyOwner||!sellerCertificateToSign||!isDataToSignHashValid()}>
-                    <div>Proove that you own wallet address {myEthAccount} by singing following certificate:</div>
+                    <div>Proove that you own wallet address {sellerEthAccount} by singing following certificate:</div>
                     <br></br>
                     <div>
                         <i>{sellerCertificateToSign}</i>
