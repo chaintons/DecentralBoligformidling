@@ -32,7 +32,8 @@ export default function NftDetails() {
       image: meta.data.image,
       name: meta.data.name,
       description: meta.data.description,
-      tokenURI: tokenURI
+      tokenURI: tokenURI,
+      propertyAddress: meta.data.propertyAddress,
     }
     console.debug(nft.description)
     console.debug("nft.name" + nft.name)

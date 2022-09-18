@@ -42,13 +42,13 @@ export default function CreateItem() {
   }
 
   async function uploadToIPFS() {
-    const { name, description, price, addres } = formInput
+    const { name, description, price, address } = formInput
     if (!name || !description || !price || !fileUrl) {
       return
     } else {
       // first, upload metadata to IPFS
       const data = JSON.stringify({
-        name, description, image: fileUrl, propertyAddress: addres, 
+        name, description, image: fileUrl, propertyAddress: address, 
         sellerEthAccount, sellerCertificateToSign, sellerWalletSignature
       })
       try {

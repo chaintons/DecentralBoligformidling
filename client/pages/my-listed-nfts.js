@@ -25,6 +25,7 @@ export default function CreatorDashboard() {
       try {
         const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, BoredPetsNFT.networks[networkId].address)
         const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call();
+        console.log("tokenURI-" + i.tokenId + ":" + tokenURI)
         const meta = await axios.get(tokenURI);
         let item = {
           price: i.price,
@@ -32,6 +33,7 @@ export default function CreatorDashboard() {
           seller: i.seller,
           owner: i.owner,
           image: meta.data.image,
+          propertyAddress: meta.data.propertyAddress,
         }
         return item
       } catch(err) {
@@ -56,6 +58,7 @@ export default function CreatorDashboard() {
                 <div key={i} className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} className="rounded" />
                   <div className="p-1 bg-black">
+                    <p className="text-1xl font-bold text-white">Address - {nft.propertyAddress}</p>
                     <p className="text-1xl font-bold text-white">Price - {Web3.utils.fromWei(nft.price, "ether")} Ether</p>
                     <p className="text-1xl font-bold text-white">Owner - {nft.owner}</p>
                     <p className="text-1xl font-bold text-white">Seller - {nft.seller}</p>
