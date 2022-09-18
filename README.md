@@ -16,19 +16,33 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Working with the Dapp
-[Workflow](Workflow-4-Dapp.md)
+## Working with the Dapp Decental Boligformidling
+### Sellerflow:
+* Seller/owner enter real estate property and system present info from Tinglysning / Central Real estate Register (CRR) (TODO)
+    * CRR should probably be mocked
+    * To reach CRR go through Oracle e.g. ChainLink
+    * Url (or Id) to Property is used as data in NFT
+* Owner Creates a SelfSignedIdCertificate (SSIC) (Eventually use PolygonId):
+    * A SSIC is a certificate containing:
+        * Text telling: This wallet address (WA) belongs to this person (Name)
+        * An Ethereum signature from the wallet
+    * Sign SSIC with signature from e.g
+            * NemId / MitId or
+            * Passport signing app
+            * Ethereum wallet
+* Owner mints a real estate NFT:    
+    * NFT is minted onto chain and ready for sale
 
-## Features of the Dapp
-[Features](Features.MD)
-
+### Buyer flow:
+* Buyer browse for property and either click on Buy or View
+    * Click on Buy indicates all documents are ready and the wallet opens and user accept the payment, the property is in the users property page
+    * View show the case file where all info about the real estate is documented and verified status is shown
+    * User when all document are in place the user can now buy the property
 
 ## Links
 
 * [Build a Real Estate dApp With Chainlink Oracles](https://blog.chain.link/build-a-real-estate-dapp-with-chainlink-oracles/)
 * [Web3 JWT auth example](https://twitter.com/isaacpatka/status/1422188383472848897)
-
-...
 
 ## Credits
 
