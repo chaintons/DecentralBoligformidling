@@ -30,10 +30,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ...
 
-## Persons
+## Credits
 
+Thanks to
+
+* Scheleton for the code [nft-marketplace-box](https://github.com/truffle-box/nft-marketplace-box) by @emilyJLin95
 * [ETHOnline](https://online.ethglobal.com/)  
-...
 
 ## Learn More about next.js
 To learn more about Next.js, take a look at the following resources:
