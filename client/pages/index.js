@@ -35,8 +35,6 @@ export default function Home() {
           owner: i.buyer,
           image: meta.data.image,
           name: meta.data.name,
-          tokenURI: tokenURI,
-          propertyAddress: meta.data.propertyAddress,
           description: meta.data.description
         }
         return nft
