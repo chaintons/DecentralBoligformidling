@@ -44,17 +44,12 @@ export default function NftDetails() {
     setLoadingState('loaded')
   }
 
-  function listNFT(nft) {
-    router.push(`/resell-nft?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
-  }
-
   async function buyNft(nft) {
     const web3 = await getWeb3Async()
     const networkId = await web3.eth.net.getId();
     const marketPlaceContract = new web3.eth.Contract(Marketplace.abi, Marketplace.networks[networkId].address);
     const accounts = await web3.eth.getAccounts();
     await marketPlaceContract.methods.buyNft(BoredPetsNFT.networks[networkId].address, nft.tokenId).send({ from: accounts[0], value: nft.price });
-    //loadNFTs()
     router.push('/')
   }
 
