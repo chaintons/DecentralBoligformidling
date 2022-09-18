@@ -26,6 +26,7 @@ export default function MyAssets() {
     const nfts = await Promise.all(data.map(async i => {
       try {
         const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call()
+        console.log("tokenURI-" + i.tokenId + ":" + tokenURI)
         const meta = await axios.get(tokenURI)
         let nft = {
           price: i.price,
@@ -35,7 +36,8 @@ export default function MyAssets() {
           image: meta.data.image,
           name: meta.data.name,
           description: meta.data.description,
-          tokenURI: tokenURI
+          tokenURI: tokenURI,
+          propertyAddress: meta.data.propertyAddress,
         }
         return nft
       } catch(err) {
@@ -64,6 +66,7 @@ export default function MyAssets() {
                   <img src={nft.image} className="rounded" />
                   <div className="p-4">
                     <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
+                    <p style={{ height: '64px' }} className="text-2xl font-semibold">Address: {nft.propertyAddress}</p>
                     <div style={{ height: '70px', overflow: 'hidden' }}>
                       <p className="text-gray-400">{nft.description}</p>
                     </div>

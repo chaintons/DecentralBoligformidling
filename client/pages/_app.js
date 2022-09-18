@@ -27,11 +27,11 @@ function MyApp({ Component, pageProps }) {
               My NFTs for sale
             </a>
           </Link>
-          <Link href="/select-a-property-to-mint">
+          {/* <Link href="/select-a-property-to-mint">
             <a className="mr-6 text-teal-400">
               Select a property
             </a>
-          </Link>
+          </Link> */}
         </div>
       </nav>
       <Component {...pageProps} />

@@ -4,6 +4,7 @@ import Web3Modal from 'web3modal'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import { Marketplace, BoredPetsNFT } from './contracts-import'
+import SelectProperty from './select-a-property-to-mint'
 
 const ipfsServer = 'http://127.0.0.1' // Brave or CLI
 // const ipfsServer = 'https://ipfs.infura.io'
@@ -16,8 +17,12 @@ const client = ipfsHttpClient(`${ipfsServer}:${ipfsApiPort}/api/v0`)
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
-  const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
+  const [formInput, updateFormInput] = useState({ price: '', name: '', description: '', address: '' })
   const router = useRouter()
+
+  const [sellerEthAccount, setSellerEthAccount] = useState('')
+  const [sellerCertificateToSign, setSellerCertificateToSign] = useState('')
+  const [sellerWalletSignature, setSellerWalletSignature] = useState('')
 
   async function onChange(e) {
     // upload image to IPFS
@@ -37,13 +42,14 @@ export default function CreateItem() {
   }
 
   async function uploadToIPFS() {
-    const { name, description, price } = formInput
+    const { name, description, price, address } = formInput
     if (!name || !description || !price || !fileUrl) {
       return
     } else {
       // first, upload metadata to IPFS
       const data = JSON.stringify({
-        name, description, image: fileUrl
+        name, description, image: fileUrl, propertyAddress: address, 
+        sellerEthAccount, sellerCertificateToSign, sellerWalletSignature
       })
       try {
         const added = await client.add(data)
@@ -111,7 +117,15 @@ export default function CreateItem() {
             <img className="rounded mt-4" width="350" src={fileUrl} />
           )
         }
-        <button onClick={listNFTForSale} className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg">
+        <SelectProperty
+          formInput={formInput} updateFormInput={updateFormInput} 
+          sellerEthAccount={sellerEthAccount} setSellerEthAccount={setSellerEthAccount}
+          sellerCertificateToSign={sellerCertificateToSign} setSellerCertificateToSign={setSellerCertificateToSign} 
+          setSellerWalletSignature={setSellerWalletSignature}/>
+        <button 
+        onClick={listNFTForSale} 
+        className="font-bold mt-4 bg-teal-400 text-white rounded p-4 shadow-lg"
+        disabled={!sellerWalletSignature}>
           Mint and sell NFT
         </button>
       </div>

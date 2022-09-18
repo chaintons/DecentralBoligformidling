@@ -25,6 +25,7 @@ export default function Home() {
       try {
         const boredPetsContract = new web3.eth.Contract(BoredPetsNFT.abi, BoredPetsNFT.networks[networkId].address)
         const tokenURI = await boredPetsContract.methods.tokenURI(i.tokenId).call()
+        console.log("tokenURI-" + i.tokenId + ":" + tokenURI)
         const meta = await axios.get(tokenURI)
         const nft = {
           price: i.price,
@@ -72,6 +73,7 @@ export default function Home() {
                 <div key={i} className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} />
                   <div className="p-4">
+                    <p style={{ height: '64px' }} className="text-2xl font-semibold">Address: {nft.propertyAddress}</p>
                     <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                     <div style={{ height: '70px', overflow: 'hidden' }}>
                       <p className="text-gray-400">{nft.description}</p>
