@@ -17,7 +17,7 @@ const client = ipfsHttpClient(`${ipfsServer}:${ipfsApiPort}/api/v0`)
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
-  const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
+  const [formInput, updateFormInput] = useState({ price: '', name: '', description: '', address: '' })
   const router = useRouter()
 
   const [sellerEthAccount, setSellerEthAccount] = useState('')
@@ -42,13 +42,13 @@ export default function CreateItem() {
   }
 
   async function uploadToIPFS() {
-    const { name, description, price } = formInput
+    const { name, description, price, addres } = formInput
     if (!name || !description || !price || !fileUrl) {
       return
     } else {
       // first, upload metadata to IPFS
       const data = JSON.stringify({
-        name, description, image: fileUrl, 
+        name, description, image: fileUrl, propertyAddress: addres, 
         sellerEthAccount, sellerCertificateToSign, sellerWalletSignature
       })
       try {
@@ -118,6 +118,7 @@ export default function CreateItem() {
           )
         }
         <SelectProperty
+          formInput={formInput} updateFormInput={updateFormInput} 
           sellerEthAccount={sellerEthAccount} setSellerEthAccount={setSellerEthAccount}
           sellerCertificateToSign={sellerCertificateToSign} setSellerCertificateToSign={setSellerCertificateToSign} 
           setSellerWalletSignature={setSellerWalletSignature}/>

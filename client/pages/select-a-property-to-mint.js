@@ -2,12 +2,12 @@ import { useState } from 'react'
 import { getWeb3Async } from '../utils/web3utils'
 
 export default function SelectProperty({ 
+    formInput, updateFormInput, 
     sellerEthAccount, setSellerEthAccount,
     sellerCertificateToSign, setSellerCertificateToSign, 
     setSellerWalletSignature }) {
 
     const [propertyOwner, setPropertyOwner] = useState('')
-    const [formInput, updateFormInput] = useState({ address: '' })
     const [dataToSignHash, setDataToSignHash] = useState('')
 
     function isDataToSignHashValid() {
